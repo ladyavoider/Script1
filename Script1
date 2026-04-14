@@ -39,5 +39,28 @@ local Window = Rayfield:CreateWindow({
    }
 })
 
-local Tab = Window:CreateTab("Main", 4483362458) -- Title, Image
-local Section = Tab:CreateSection("Section Example")
+local Tab = Window:CreateTab("Home", nil) -- Title, Image
+local Section = Tab:CreateSection("Main")
+
+local Button = Tab:CreateButton({
+   Name = "No Fog",
+   Callback = function()  
+    local Lighting = game:GetService("Lighting")
+
+local function clearFog()
+    -- Reset standard fog properties
+    Lighting.FogEnd = 100000 -- Sets the fog distance to be effectively invisible
+    Lighting.FogStart = 0
+    Lighting.FogColor = Color3.fromRGB(0, 0, 0)
+    
+    -- Remove "Atmosphere" objects which often create modern fog/haze
+    for _, obj in ipairs(Lighting:GetChildren()) do
+        if obj:IsA("Atmosphere") or obj:IsA("Clouds") then
+            obj:Destroy()
+        end
+    end
+    
+    print("Fog and atmosphere cleared successfully.")
+end
+   end,
+})
